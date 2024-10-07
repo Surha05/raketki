@@ -1,3 +1,5 @@
+let log = console.log;
+
 const express = require('express');
 const path = require('path');
 const http = require("http");
@@ -21,7 +23,13 @@ wss.on("connection", connection => {
     if(result.name) {
       connection.playerName = result.name;
       sendName();
+      return;
     }
+    if(result.type === 'playerСhoice') {
+      let id = result.id;
+      sendChoice(id);
+    }
+    
   });
 
   connection.on("close", () => {
@@ -45,11 +53,22 @@ function addId() {
 function sendName() {
   let names = [];
   for(let el of players) {
-    names.push(el.playerName || 'не указано');
+    names.push({
+      id: el.id,
+      name: el.playerName || 'не указано',
+    });
   }
   for(let el of players) {
     el.send(JSON.stringify({
       names: names,
+    }));
+  }
+}
+function sendChoice(id) {
+  for(let el of players) {
+    let opponent = players.find(el => el.id == id);
+    opponent.send(JSON.stringify({
+      type: 'invitation',
     }));
   }
 }
