@@ -6,13 +6,20 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <script type="module" src="./script.js"></script>
+  <link rel="stylesheet" href="./reset.css">
+  <link rel="stylesheet" href="./standart.css">
   <link rel="stylesheet" href="./style.css">
   <title>Ракетки</title>
 </head>
 
 <body>
-  <button class="btn">Указать свое имя</button>
-  <div class="title">Список игроков:</div>
+  <div class="container active">
+  <div class="block">
+    <p class="block__text">Введите имя</p>
+    <input type="text" class="block__input" placeholder="имя">
+    <button class="block__btn">Готово</button>
+  </div>
+</div>
   <ul class="list">
     <!-- <li class="li">Игрок 1</li> -->
   </ul>
