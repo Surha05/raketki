@@ -1,14 +1,23 @@
 let log = console.log;
 
 const list = document.querySelector('.list');
-const btn = document.querySelector('.btn');
+
+const modal = document.querySelector('.modal');
+const modalInp = modal.querySelector('.modal__input');
+const modalBtn = modal.querySelector('.modal__btn');
 
 // let ws = new WebSocket("ws://192.168.0.104:8083");
 let ws = new WebSocket("ws://localhost:8083");
 let names = [];
 let selfId;
+let selfName;
 
-btn.addEventListener('click', sendName);
+showModal()
+
+modalBtn.addEventListener('click', () => {
+  addSelfName();
+  sendName();
+});
 list.addEventListener('click', playerСhoice)
 
 ws.onmessage = res => {
@@ -38,12 +47,17 @@ function playerСhoice(e) {
     }));
   };
 }
+
 function sendName() {
-  let name = prompt('Имя');
   ws.send(JSON.stringify({
     'type': 'sendName',
-    'name': name,
+    'name': selfName,
   }));
+}
+function addSelfName() {
+  selfName = modalInp.value;
+  localStorage.setItem('self-name', selfName);
+  modal.classList.remove('active');
 }
 function renderPlayerNames() {
   list.innerHTML = '';
@@ -53,5 +67,9 @@ function renderPlayerNames() {
   }
 }
 
+function showModal() {
+  if(localStorage.getItem('self-name')) sendName;
+  else modal.classList.add('active');
+}
 
 
