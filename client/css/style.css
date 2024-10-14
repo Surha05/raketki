@@ -1,10 +1,6 @@
 
 
-body {
-  height: 100vh;
-  overflow: hidden;
-  background-color: #12bdac;
-}
+
 .li {
   cursor: pointer;
   margin-bottom: 8px;
