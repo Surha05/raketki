@@ -1,6 +1,6 @@
 let log = console.log;
 
-const list = document.querySelector('.list');
+const list = document.querySelector('.list__ul');
 
 const modal = document.querySelector('.modal');
 const modalInp = modal.querySelector('.modal__input');
@@ -18,6 +18,7 @@ modalBtn.addEventListener('click', () => {
   addSelfName();
   sendName();
 });
+modalBtn.addEventListener('click',openList)
 list.addEventListener('click', playerСhoice)
 
 ws.onmessage = res => {
@@ -73,3 +74,6 @@ function showModal() {
 }
 
 
+function openList(){
+  list.classList.add('active');
+}

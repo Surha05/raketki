@@ -6,12 +6,23 @@ body {
 }
 
 
+.list__ul{
+ height: 0px;
+ overflow: hidden;
+ transition: 0.5s;
+ color: white;
+}
+.list__ul.active{
+  height: 300px;
+  overflow: auto;
 
 
+}
 
 .li {
   cursor: pointer;
   margin-bottom: 8px;
+  color: white;
 }
 .li:hover {
   color: bisque;
