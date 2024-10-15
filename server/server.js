@@ -31,7 +31,6 @@ wss.on("connection", connection => {
   connection.on('message', data => {
     let result = JSON.parse(data);
     if(result.type === 'sendName') {
-      log(result.name)
       connection.player.name = result.name;
       sendName();
       return;

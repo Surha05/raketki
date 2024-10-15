@@ -1,7 +1,8 @@
 body {
   min-height: 100vh;
   overflow: hidden;
-  background-color: #12bdac;
+  /* background-color: #12bdac; */
+  background-color: #161c22;
 }
 .container {
   width: 100%;

@@ -1,7 +1,6 @@
 let log = console.log;
 
 const list = document.querySelector('.list__ul');
-
 const modal = document.querySelector('.modal');
 const modalInp = modal.querySelector('.modal__input');
 const modalBtn = modal.querySelector('.modal__btn');
@@ -12,14 +11,11 @@ let names = [];
 let selfId;
 let selfName;
 
-showModal()
-
 modalBtn.addEventListener('click', () => {
-  addSelfName();
   sendName();
+  openList();
 });
-modalBtn.addEventListener('click',openList)
-list.addEventListener('click', playerСhoice)
+// list.addEventListener('click', playerСhoice)
 
 ws.onmessage = res => {
   const data = JSON.parse(res.data);
@@ -52,13 +48,8 @@ function playerСhoice(e) {
 function sendName() {
   ws.send(JSON.stringify({
     'type': 'sendName',
-    'name': selfName,
+    'name': modalInp.value,
   }));
-}
-function addSelfName() {
-  selfName = modalInp.value;
-  localStorage.setItem('self-name', selfName);
-  modal.classList.remove('active');
 }
 function renderPlayerNames() {
   list.innerHTML = '';
@@ -66,11 +57,6 @@ function renderPlayerNames() {
     if(el.id == selfId) continue;
     list.innerHTML += `<li class="li" id="${el.id}">${el.name}</li>`;
   }
-}
-
-function showModal() {
-  if(localStorage.getItem('self-name')) sendName;
-  else modal.classList.add('active');
 }
 
 
