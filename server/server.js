@@ -11,10 +11,6 @@ const httpServer = http.createServer();
 const wss = new WebSocket.Server({ server: httpServer });
 httpServer.listen(8083);
 
-// const httpServer2 = http.createServer();
-// const wss2 = new WebSocket.Server({ server: httpServer2 });
-// httpServer2.listen(8084);
-
 let players = [];
 let orderId = {
   id: 0,
@@ -23,18 +19,9 @@ let orderId = {
     return this.id;
   }
 }
-// wss2.on("connection", connection => {
-//   connection.on('message', data => {
-//     let result = JSON.parse(data);
-
-//     if(result.type === 'game') {
-//       log(result.name)
-//       return;
-//     }
-//   });
-// });
 
 wss.on("connection", connection => {
+  
   connection.player = {
     id: orderId.add(),
   }
