@@ -41,6 +41,8 @@
   color: white;
   font-size: 16px;
   font-weight: bold;
+  transition: 0.5s;
+  cursor: pointer;
 }
 .modal__btn:hover {
   background-color: #71ffd0;
@@ -56,4 +58,20 @@
   font-family: 'Caveat', cursive;
   font-weight: bold;
   margin-bottom: 40px;
+}
+
+
+/* modal */
+.modal__wrapper {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: #000000aa;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  display: none;
 }
