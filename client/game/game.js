@@ -146,30 +146,13 @@ let ball = {
   r: 20,
   x: canvas.width/2,
   y: canvas.height/2,
-  xSpeed: 6,
-  ySpeed: 6,
-  maxSpeed: 0,
+  xSpeed: 0,
+  ySpeed: 0,
+  maxSpeed: 6,
 
-  move() {
-    if(this.x - this.r < 0 ) this.xSpeed = Math.abs(this.xSpeed);
-    if(this.x + this.r > canvas.width ) this.xSpeed = -Math.abs(this.xSpeed);
-    if(this.y + this.r < 0 ) {
-      score.player1++;
-      this.y = canvas.height/2;
-      this.ySpeed = Math.abs(this.ySpeed);
-    }
-    if(this.y - this.r > canvas.height ) {
-      score.player2++;
-      this.y = canvas.height/2;
-      this.ySpeed = -Math.abs(this.ySpeed);
-    }
-
-    this.x += this.xSpeed;
-    this.y += this.ySpeed;
-  },
   draw() {
-    this.collisionPlayer1();
-    this.collisionPlayer2();
+    this.collisionPlayer(player1);
+    this.collisionPlayer(player2);
     this.move();
     ctx.beginPath();
     ctx.save();
@@ -179,6 +162,57 @@ let ball = {
     ctx.closePath();
     ctx.restore();
   },
+  move() {
+    if(this.xSpeed > this.maxSpeed) this.xSpeed = this.maxSpeed;
+    if(this.xSpeed < -this.maxSpeed) this.xSpeed = -this.maxSpeed;
+    if(this.ySpeed > this.maxSpeed) this.ySpeed = this.maxSpeed;
+    if(this.ySpeed < -this.maxSpeed) this.ySpeed = -this.maxSpeed;
+    if(this.x - this.r < 0 ) this.xSpeed = Math.abs(this.xSpeed);
+    if(this.x + this.r > canvas.width ) this.xSpeed = -Math.abs(this.xSpeed);
+    if(this.y + this.r < 0 ) {
+      this.toStartPosition();
+      score.player1++;
+      this.y = canvas.height/2;
+      this.ySpeed = Math.abs(this.ySpeed);
+    }
+    if(this.y - this.r > canvas.height ) {
+      this.toStartPosition();
+      score.player2++;
+      this.y = canvas.height/2;
+      this.ySpeed = -Math.abs(this.ySpeed);
+    }
+
+    this.x += this.xSpeed;
+    this.y += this.ySpeed;
+  },
+  collisionPlayer(player) {
+    if(this.y+this.r < player.y) return;
+    if(this.y-this.r > player.y+player.h) return;
+    if(this.x+this.r < player.x) return;
+    if(this.x-this.r > player.x+player.w) return;
+    // столкновение низа мяча и верха player2
+    if(this.y < player.y && this.x > player.x && this.x < player.x + player.w ) {
+      this.ySpeed = -Math.abs(this.ySpeed) + player.ySpeed/3;
+      this.xSpeed += player.xSpeed/3;
+      player.ySpeed = Math.abs(player.ySpeed);
+    }
+    // столкновение верха мяча и низа player2
+    if(this.y > player.y+player.h && this.x > player.x && this.x < player.x + player.w ) {
+      this.ySpeed = Math.abs(this.ySpeed) + player.ySpeed/3;
+      this.xSpeed += player.xSpeed/3;
+      player.ySpeed = -Math.abs(player.ySpeed);
+    }
+    // столкновение левой стороны мяча и правой стороны player2
+    if(this.x > player.x+player.w && this.y > player.y && this.y < player.y + player.h ) {
+      this.xSpeed = Math.abs(this.xSpeed) + player.xSpeed/3;
+      player.xSpeed = -Math.abs(player.xSpeed);
+    }
+    // столкновение правой стороны мяча и левой стороны player2
+    if(this.x < player.x && this.y > player.y && this.y < player.y + player.h ) {
+      this.xSpeed = -Math.abs(this.xSpeed) + player.xSpeed/3;
+      player.xSpeed = Math.abs(player.xSpeed);
+    }
+  },
   collisionPlayer1() {
     if(this.y+this.r < player1.y) return;
     if(this.y-this.r > player1.y+player1.h) return;
@@ -186,22 +220,24 @@ let ball = {
     if(this.x-this.r > player1.x+player1.w) return;
     // столкновение низа мяча и верха player 1
     if(this.y < player1.y && this.x > player1.x && this.x < player1.x + player1.w ) {
-      this.ySpeed = -Math.abs(this.ySpeed);
+      this.ySpeed = -Math.abs(this.ySpeed) + player1.ySpeed/3;
+      this.xSpeed += player1.xSpeed/3;
       player1.ySpeed = Math.abs(player1.ySpeed);
     }
     // столкновение верха мяча и низа player 1
     if(this.y > player1.y+player1.h && this.x > player1.x && this.x < player1.x + player1.w ) {
-      this.ySpeed = Math.abs(this.ySpeed);
+      this.ySpeed = Math.abs(this.ySpeed) + player1.ySpeed/3;
+      this.xSpeed += player1.xSpeed/3;
       player1.ySpeed = -Math.abs(player1.ySpeed);
     }
-    // столкновение левой стороны мяча и правой стороны player 1
+    // столкновение левой стороны мяча и правой стороны player1
     if(this.x > player1.x+player1.w && this.y > player1.y && this.y < player1.y + player1.h ) {
-      this.xSpeed = Math.abs(this.xSpeed);
+      this.xSpeed = Math.abs(this.xSpeed) + player1.xSpeed/3;
       player1.xSpeed = -Math.abs(player1.xSpeed);
     }
-    // столкновение правой стороны мяча и левой стороны player 1
+    // столкновение правой стороны мяча и левой стороны player1
     if(this.x < player1.x && this.y > player1.y && this.y < player1.y + player1.h ) {
-      this.xSpeed = -Math.abs(this.xSpeed);
+      this.xSpeed = -Math.abs(this.xSpeed) + player1.xSpeed/3;
       player1.xSpeed = Math.abs(player1.xSpeed);
     }
   },
@@ -212,24 +248,32 @@ let ball = {
     if(this.x-this.r > player2.x+player2.w) return;
     // столкновение низа мяча и верха player2
     if(this.y < player2.y && this.x > player2.x && this.x < player2.x + player2.w ) {
-      this.ySpeed = -Math.abs(this.ySpeed);
+      this.ySpeed = -Math.abs(this.ySpeed) + player2.ySpeed/3;
+      this.xSpeed += player2.xSpeed/3;
       player2.ySpeed = Math.abs(player2.ySpeed);
     }
     // столкновение верха мяча и низа player2
     if(this.y > player2.y+player2.h && this.x > player2.x && this.x < player2.x + player2.w ) {
-      this.ySpeed = Math.abs(this.ySpeed);
+      this.ySpeed = Math.abs(this.ySpeed) + player2.ySpeed/3;
+      this.xSpeed += player2.xSpeed/3;
       player2.ySpeed = -Math.abs(player2.ySpeed);
     }
     // столкновение левой стороны мяча и правой стороны player2
     if(this.x > player2.x+player2.w && this.y > player2.y && this.y < player2.y + player2.h ) {
-      this.xSpeed = Math.abs(this.xSpeed);
+      this.xSpeed = Math.abs(this.xSpeed) + player2.xSpeed/3;
       player2.xSpeed = -Math.abs(player2.xSpeed);
     }
     // столкновение правой стороны мяча и левой стороны player2
     if(this.x < player2.x && this.y > player2.y && this.y < player2.y + player2.h ) {
-      this.xSpeed = -Math.abs(this.xSpeed);
+      this.xSpeed = -Math.abs(this.xSpeed) + player2.xSpeed/3;
       player2.xSpeed = Math.abs(player2.xSpeed);
     }
+  },
+  toStartPosition() {
+    this.x = canvas.width/2;
+    this.y = canvas.height/2;
+    this.xSpeed = 0;
+    this.ySpeed = 0;
   },
 };
 let score = {
