@@ -1,13 +1,20 @@
-const express = require('express');
-const server = express();
-server.listen(3000,listen)
-const fs = require('fs');
-const html = fs.readFileSync('../client/index.html','UTF-8');
-console.log(__dirname+'../client/css')
-server.use(express.static(__dirname+'../client/css'));
-server.get('/',start);
+let log = console.log;
 
-<<<<<<< HEAD
+const express = require('express');
+const path = require('path');
+const http = require("http");
+const WebSocket = require("ws");
+const app = express();
+app.use(express.static(path.join(__dirname, '..', 'client')));
+app.listen(3000);
+const httpServer = http.createServer();
+const wss = new WebSocket.Server({ server: httpServer });
+httpServer.listen(8083);
+
+// const httpServer2 = http.createServer();
+// const wss2 = new WebSocket.Server({ server: httpServer2 });
+// httpServer2.listen(8084);
+
 let players = [];
 let orderId = {
   id: 0,
@@ -16,9 +23,18 @@ let orderId = {
     return this.id;
   }
 }
+// wss2.on("connection", connection => {
+//   connection.on('message', data => {
+//     let result = JSON.parse(data);
+
+//     if(result.type === 'game') {
+//       log(result.name)
+//       return;
+//     }
+//   });
+// });
 
 wss.on("connection", connection => {
-  
   connection.player = {
     id: orderId.add(),
   }
@@ -28,6 +44,7 @@ wss.on("connection", connection => {
   connection.on('message', data => {
     let result = JSON.parse(data);
     if(result.type === 'sendName') {
+      log(result.name)
       connection.player.name = result.name;
       sendName();
       return;
@@ -77,12 +94,4 @@ function sendChoice(from, toId) {
     type: 'invitation',
     fromName: from.name,
   }));
-=======
-function listen(){
-    console.log('hi')
-}
-
-function start(req,res){
-res.send(html)
->>>>>>> beslan
 }
