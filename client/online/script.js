@@ -19,7 +19,7 @@ modalBtn.addEventListener('click', () => {
 
 ws.onmessage = res => {
   const data = JSON.parse(res.data);
-  if(data.names) {
+  if(data.type == 'send names') {
     names = data.names;
     selfId = data.selfId;
     renderPlayerNames();

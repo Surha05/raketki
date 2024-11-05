@@ -1,14 +1,9 @@
 .list__ul {
   width: 100%;
-  height: 0px;
-  overflow: hidden;
+  height: auto;
   transition: 0.5s;
   color: white;
   margin-bottom: 40px;
-}
-.list__ul.active {
-  height: 300px;
-  overflow: auto;
 }
 .li {
   text-align: center;
