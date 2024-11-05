@@ -213,62 +213,6 @@ let ball = {
       player.xSpeed = Math.abs(player.xSpeed);
     }
   },
-  collisionPlayer1() {
-    if(this.y+this.r < player1.y) return;
-    if(this.y-this.r > player1.y+player1.h) return;
-    if(this.x+this.r < player1.x) return;
-    if(this.x-this.r > player1.x+player1.w) return;
-    // столкновение низа мяча и верха player 1
-    if(this.y < player1.y && this.x > player1.x && this.x < player1.x + player1.w ) {
-      this.ySpeed = -Math.abs(this.ySpeed) + player1.ySpeed/3;
-      this.xSpeed += player1.xSpeed/3;
-      player1.ySpeed = Math.abs(player1.ySpeed);
-    }
-    // столкновение верха мяча и низа player 1
-    if(this.y > player1.y+player1.h && this.x > player1.x && this.x < player1.x + player1.w ) {
-      this.ySpeed = Math.abs(this.ySpeed) + player1.ySpeed/3;
-      this.xSpeed += player1.xSpeed/3;
-      player1.ySpeed = -Math.abs(player1.ySpeed);
-    }
-    // столкновение левой стороны мяча и правой стороны player1
-    if(this.x > player1.x+player1.w && this.y > player1.y && this.y < player1.y + player1.h ) {
-      this.xSpeed = Math.abs(this.xSpeed) + player1.xSpeed/3;
-      player1.xSpeed = -Math.abs(player1.xSpeed);
-    }
-    // столкновение правой стороны мяча и левой стороны player1
-    if(this.x < player1.x && this.y > player1.y && this.y < player1.y + player1.h ) {
-      this.xSpeed = -Math.abs(this.xSpeed) + player1.xSpeed/3;
-      player1.xSpeed = Math.abs(player1.xSpeed);
-    }
-  },
-  collisionPlayer2() {
-    if(this.y+this.r < player2.y) return;
-    if(this.y-this.r > player2.y+player2.h) return;
-    if(this.x+this.r < player2.x) return;
-    if(this.x-this.r > player2.x+player2.w) return;
-    // столкновение низа мяча и верха player2
-    if(this.y < player2.y && this.x > player2.x && this.x < player2.x + player2.w ) {
-      this.ySpeed = -Math.abs(this.ySpeed) + player2.ySpeed/3;
-      this.xSpeed += player2.xSpeed/3;
-      player2.ySpeed = Math.abs(player2.ySpeed);
-    }
-    // столкновение верха мяча и низа player2
-    if(this.y > player2.y+player2.h && this.x > player2.x && this.x < player2.x + player2.w ) {
-      this.ySpeed = Math.abs(this.ySpeed) + player2.ySpeed/3;
-      this.xSpeed += player2.xSpeed/3;
-      player2.ySpeed = -Math.abs(player2.ySpeed);
-    }
-    // столкновение левой стороны мяча и правой стороны player2
-    if(this.x > player2.x+player2.w && this.y > player2.y && this.y < player2.y + player2.h ) {
-      this.xSpeed = Math.abs(this.xSpeed) + player2.xSpeed/3;
-      player2.xSpeed = -Math.abs(player2.xSpeed);
-    }
-    // столкновение правой стороны мяча и левой стороны player2
-    if(this.x < player2.x && this.y > player2.y && this.y < player2.y + player2.h ) {
-      this.xSpeed = -Math.abs(this.xSpeed) + player2.xSpeed/3;
-      player2.xSpeed = Math.abs(player2.xSpeed);
-    }
-  },
   toStartPosition() {
     this.x = canvas.width/2;
     this.y = canvas.height/2;
@@ -281,14 +225,14 @@ let score = {
   player2: 0,
   draw() {
     let fontSize = 260;
-    if(this.player1 >= 10) {
+    if(this.player1 >= 3) {
       this.player1 = 'Победа';
       this.player2 = 'Позор';
       pause = true;
       fontSize = 150;
       modal.style.display = 'flex';
     }
-    if(this.player2 >= 10) {
+    if(this.player2 >= 3) {
       this.player2 = 'Победа';
       this.player1 = 'Позор';
       pause = true;
@@ -343,6 +287,6 @@ function drawLine() {
 }
 function clickModal(e) {
   if(e.target.closest('[data-target="replay"]')) location.reload();
-  // if(e.target.closest('[data-target="menu"]')) window.location.href = 'URL2';
+  if(e.target.closest('[data-target="menu"]')) window.location.href = '/';
   
 }
