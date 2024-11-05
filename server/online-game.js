@@ -70,8 +70,6 @@ wss.on("connection", connection => {
   });
 });
 
-
-
 function sendName() {
   let names = [];
   for(let el of players) {

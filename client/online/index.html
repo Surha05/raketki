@@ -1,27 +1,33 @@
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script type="module" src="./script.js"></script>
+    <link rel="stylesheet" href="../css/reset.css" />
+    <link rel="stylesheet" href="../css/standart.css" />
+    <link rel="stylesheet" href="../css/style.css" />
+    <link rel="stylesheet" href="../css/modal.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Caveat:wght@400..700&display=swap"
+      rel="stylesheet"
+    />
+    <title>Ракетки</title>
+  </head>
 
-<head>
-  <meta charset="UTF-8" />
-  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <script type="module" src="./script.js"></script>
-  <link rel="stylesheet" href="./css/reset.css" />
-  <link rel="stylesheet" href="./css/standart.css" />
-  <link rel="stylesheet" href="./css/style.css" />
-  <link rel="stylesheet" href="./css/modal.css" />
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400..700&display=swap" rel="stylesheet">
-  <title>Ракетки</title>
-
-</head>
-
-<body>
-  <div class="container modal__container">
-
-    <h1 class="h1">Ракетки</h1>
-    <!-- <div class="list"> -->
+  <body>
+    <div class="container modal__container">
+      <main class="main">
+        <h1 class="h1">Ракетки</h1>
+        <div class="modal">
+          <input class="modal__input" placeholder="имя" />
+          <button class="modal__btn">Готово</button>
+        </div>
+      </main>
+      <h3 class="h3">Список игроков</h3>
       <ul class="list__ul">
         <li class="li">Игрок 1</li>
         <li class="li">Игрок 1</li>
@@ -30,12 +36,6 @@
         <li class="li">Игрок 1</li>
         <li class="li">Игрок 1</li>
       </ul>
-    <!-- </div> -->
-    <div class="modal">
-      <input class="modal__input" placeholder="имя" />
-      <button class="modal__btn">Готово</button>
     </div>
-  </div>
-</body>
-
+  </body>
 </html>
