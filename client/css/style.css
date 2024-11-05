@@ -4,6 +4,7 @@
   transition: 0.5s;
   color: white;
   margin-bottom: 40px;
+  
 }
 .li {
   text-align: center;
@@ -11,6 +12,7 @@
   margin-bottom: 8px;
   color: rgb(128, 104, 192);
   font-size: 14px;
+  list-style-type: none;
 }
 .li:hover {
   color: bisque;
