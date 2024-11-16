@@ -4,12 +4,12 @@ const path = require('path');
 const http = require("http");
 const WebSocket = require("ws");
 
-const log = console.log;
-
 const server = express();
-server.listen(3000,listen)
 const httpServer = http.createServer();
 const wss = new WebSocket.Server({ server: httpServer });
+const log = console.log;
+
+server.listen(3000,listen)
 httpServer.listen(8083);
 
 let players = [];
