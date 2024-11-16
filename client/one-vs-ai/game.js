@@ -264,7 +264,6 @@ let pause = false;
 
 // EVENTs
 document.addEventListener('keydown', (e) => {
-  console.log(e.code);
   keyPressed.add(e.code);
 });
 document.addEventListener('keyup', e => {
