@@ -1,11 +1,15 @@
 .list__ul {
   width: 100%;
-  height: auto;
+  /* height: 0; */
   transition: 0.5s;
   color: white;
   margin-bottom: 40px;
   margin-top: 10px;
-  
+  /* overflow: hidden; */
+  display: none;
+}
+.list__ul.active {
+  display: block;
 }
 .li {
   text-align: center;

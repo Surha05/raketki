@@ -5,8 +5,8 @@ const modal = document.querySelector('.modal');
 const modalInp = modal.querySelector('.modal__input');
 const modalBtn = modal.querySelector('.modal__btn');
 
-// let ws = new WebSocket("ws://192.168.0.104:8083");
-let ws = new WebSocket("ws://localhost:8083");
+let ws = new WebSocket("ws://192.168.0.103:8083");
+// let ws = new WebSocket("ws://localhost:8083");
 let names = [];
 let selfId;
 let selfName;
@@ -15,7 +15,7 @@ modalBtn.addEventListener('click', () => {
   sendName();
   openList();
 });
-// list.addEventListener('click', playerСhoice)
+list.addEventListener('click', playerСhoice)
 
 ws.onmessage = res => {
   const data = JSON.parse(res.data);
@@ -27,7 +27,7 @@ ws.onmessage = res => {
   }
   if(data.type == 'invitation') {
     let fromName = data.fromName;
-    alert(`Вас приглашает игрок ${fromName}`);
+    confirm(`Вас приглашает игрок ${fromName}. Принять?`);
   }
 }
 

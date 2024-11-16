@@ -21,16 +21,17 @@ let orderId = {
   }
 }
 wss.on("connection", connection => {
+  
   connection.player = {
     id: orderId.add(),
   }
+  
   players.push(connection);
   sendName();
   
   connection.on('message', data => {
     let result = JSON.parse(data);
     if(result.type === 'sendName') {
-      log(result.name)
       connection.player.name = result.name;
       sendName();
       return;
@@ -39,7 +40,6 @@ wss.on("connection", connection => {
       let id = result.id;
       let from = connection.player;
       sendChoice(from ,id);
-      log(result)
       return;
     }
   });
