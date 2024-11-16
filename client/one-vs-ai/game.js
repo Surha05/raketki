@@ -33,9 +33,13 @@ let player1 = {
   },
   move() {
     if(keyPressed.has('ArrowUp')) this.moveUp();
+    if(keyPressed.has('KeyW')) this.moveUp();
     if(keyPressed.has('ArrowDown')) this.moveDown();
+    if(keyPressed.has('KeyS')) this.moveDown();
     if(keyPressed.has('ArrowLeft')) this.moveLeft();
+    if(keyPressed.has('KeyA')) this.moveLeft();
     if(keyPressed.has('ArrowRight')) this.moveRight();
+    if(keyPressed.has('KeyD')) this.moveRight();
   },
   moveUp() {
     if(this.ySpeed < -this.maxSpeed) {
@@ -260,6 +264,7 @@ let pause = false;
 
 // EVENTs
 document.addEventListener('keydown', (e) => {
+  console.log(e.code);
   keyPressed.add(e.code);
 });
 document.addEventListener('keyup', e => {
