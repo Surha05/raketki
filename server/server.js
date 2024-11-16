@@ -13,7 +13,15 @@ server.listen(3000,listen)
 httpServer.listen(8083);
 
 let players = [];
+let rooms = [];
 let orderId = {
+  id: 0,
+  add() {
+    this.id++;
+    return this.id;
+  }
+}
+let roomId = {
   id: 0,
   add() {
     this.id++;
@@ -42,6 +50,17 @@ wss.on("connection", connection => {
       sendChoice(from ,id);
       return;
     }
+    if(result.type === 'refusing') {
+      let id = result.id;
+      refusing(id);
+      return;
+    }
+    if(result.type === 'accepting') {
+      let selfId = result.selfId;
+      let toId = result.toId;
+      accepting(selfId, toId);
+      return;
+    }
   });
 
   connection.on("close", () => {
@@ -55,6 +74,19 @@ wss.on("connection", connection => {
     sendName();
   });
 });
+function accepting(selfId, toId) {
+  let player1 = players.find(el => el.player.id == selfId);
+  let player2 = players.find(el => el.player.id == toId);
+  let room = roomId.add();
+  player1.send(JSON.stringify({
+    type: 'accepting',
+    room: room,
+  }));
+  player2.send(JSON.stringify({
+    type: 'accepting',
+    room: room,
+  }));
+}
 function sendName() {
   let names = [];
   for(let el of players) {
@@ -77,6 +109,13 @@ function sendChoice(from, toId) {
   opponent.send(JSON.stringify({
     type: 'invitation',
     fromName: from.name,
+    fromId: from.id,
+  }));
+}
+function refusing(id) {
+  let opponent = players.find(el => el.player.id == id);
+  opponent.send(JSON.stringify({
+    type: 'refusing',
   }));
 }
 

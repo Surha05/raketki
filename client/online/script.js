@@ -27,10 +27,36 @@ ws.onmessage = res => {
   }
   if(data.type == 'invitation') {
     let fromName = data.fromName;
-    confirm(`Вас приглашает игрок ${fromName}. Принять?`);
+    let fromId = data.fromId;
+    let bool = confirm(`Вас приглашает игрок ${fromName}. Принять?`);
+    if(bool) {
+      accepting(selfId, fromId);
+    } else {
+      refusing(fromId);
+    }
+  }
+  if(data.type == 'refusing') {
+    alert('Игрок отказался играть');
+    return;
+  }
+  if(data.type == 'accepting') {
+    let room = data.room;
+    window.location.href = '/online/room?id=' + room;
   }
 }
-
+function accepting(selfId, toId) {
+  ws.send(JSON.stringify({
+    'type': 'accepting',
+    'selfId': selfId,
+    'toId': toId,
+  }));
+}
+function refusing(id) {
+  ws.send(JSON.stringify({
+    'type': 'refusing',
+    'id': id,
+  }));
+}
 function playerСhoice(e) {
   if(!e.target.closest('.li')) return;
   let el = e.target.closest('.li');
