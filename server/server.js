@@ -8,7 +8,10 @@ const server = express();
 const httpServer = http.createServer();
 const wss = new WebSocket.Server({ server: httpServer });
 const log = console.log;
+const gameServer = http.createServer();
+const gamewss = new WebSocket.Server({ server: gameServer });
 
+gameServer.listen(8084);
 server.listen(3000,listen)
 httpServer.listen(8083);
 
@@ -28,6 +31,40 @@ let roomId = {
     return this.id;
   }
 }
+let playerRoomId = {
+  id: 0,
+  add() {
+    this.id++;
+    return this.id;
+  }
+}
+let roomPlayers = [];
+gamewss.on('connection', connection => {
+  connection.player = {
+    id: playerRoomId.add(),
+    room: undefined,
+  }
+  roomPlayers.push(connection);
+  let opponent;
+  connection.on('message', data => {
+    let result = JSON.parse(data);
+    
+    if(result.type === 'room') {
+      let room = connection.player.room = result.room;
+      opponent = roomPlayers.find(el => {
+        if(el.player.id == connection.player.id) return;
+        if(room == el.player.room) return el;
+        log(opponent.player.id);
+      });
+      return;
+    }
+    if(result.type === 'playerPosition' && opponent) {
+      log('data')
+      opponent.send(JSON.stringify(result));
+      return;
+    }
+  })
+})
 wss.on("connection", connection => {
   
   connection.player = {
